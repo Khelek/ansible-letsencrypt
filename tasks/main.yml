@@ -51,7 +51,10 @@
     command: "{{ letsencrypt_command }} -a standalone auth"
     args:
       creates: "/etc/letsencrypt/live/{{ letsencrypt_cert_domains[0] }}"
-
+      
+  - name: Create the renewal file
+  - file: path="/etc/letsencrypt/renewal/{{ letsencrypt_cert_domains[0] }}.conf"
+   
   - name: Fix the renewal file
     ini_file: section=renewalparams option={{ item.key }} value={{ item.value }} dest="/etc/letsencrypt/renewal/{{ letsencrypt_cert_domains[0] }}.conf"
     with_dict:
